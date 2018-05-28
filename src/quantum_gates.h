@@ -4,5 +4,5 @@
 
 namespace QuantumGates
 {
-  cdouble_matrix SquareRootOfNot();
+  cdouble_matrix SquareRootOfNot(); // size 2 (for a single qubit)
 }

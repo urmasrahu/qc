@@ -28,6 +28,5 @@ TEST_F(QuantumGates_Test, SquareRootOfNot)
   cdouble_matrix result = gate * m.Conjugate();
 
   PrintUtil::PrintMatrixToConsole(result, "reversed");
-
   std::cout << "reversed norm (check): " << result.Norm().Real() << "\n";
 }

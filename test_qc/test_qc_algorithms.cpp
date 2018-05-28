@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "qc_algorithms.h"
+#include "print_util.h"
 
 using namespace QC_Algorithms;
 using namespace testing;
@@ -81,4 +82,17 @@ TEST_F(QC_Algorithms_Test, exercise_4_5_1)
 	double answer = ObservationProbability(state, 0);
 	//std::cout << "Answer: " << answer << "\n"; // can be any position as all have identical values
 	EXPECT_NEAR(0.0625, answer, 0.0001);
+}
+
+TEST_F(QC_Algorithms_Test, exercise_6_1_2)
+{
+  cdouble_matrix U({
+    { 0, 1, 0, 0 },
+    { 1, 0, 0, 0 },
+    { 0, 0, 1, 0 },
+    { 0, 0, 0, 1 }
+    });
+
+  EXPECT_EQ(U, U.Conjugate());
+  EXPECT_EQ(cdouble_matrix::CreateIdentityMatrix(4), U * U);
 }
