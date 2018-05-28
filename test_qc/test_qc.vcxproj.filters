@@ -30,6 +30,12 @@
     <ClInclude Include="..\src\qc_algorithms.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\quantum_gates.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\print_util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test_qc.cpp">
@@ -60,6 +66,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\..\googletest\googletest\src\gtest-all.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_quantum_gates.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\quantum_gates.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

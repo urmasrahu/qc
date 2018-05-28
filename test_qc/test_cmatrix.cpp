@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "cmatrix.h"
+#include "print_util.h"
 
 using namespace testing;
 
@@ -9,36 +10,6 @@ class cmatrixTest : public Test
 {
 public:
 	cmatrixTest() = default;
-
-	template <typename T> void PrintMatrixToConsole(const complex_matrix<T> & matrix, const char * title=nullptr)
-	{
-		if (title)
-			std::cout << title << "\n";
-
-		std::vector<std::vector<std::string>> dbg = matrix.ToStringListList();
-		for (auto row : dbg)
-		{
-			for (auto value : row)
-			{
-				std::cout << value << " ";
-			}
-			std::cout << "\n";
-		}
-	}
-
-	template <typename T> void PrintVectorToConsole(const complex_vector<T> & vector, const char * title = nullptr) // TBD: duplicate code with cvectorTest, put elsewhere
-	{
-		if (title)
-			std::cout << title << "\n";
-
-		std::vector<std::string> dbg = vector.ToStringList();
-		for (auto value : dbg)
-		{
-			std::cout << value << " ";
-		}
-		std::cout << "\n";
-	}
-
 };
 
 
@@ -450,23 +421,23 @@ TEST_F(cmatrixTest, exercise_3_2_6)
 	cdouble_matrix M4 = M2.Power(2);
 	cdouble_matrix M8 = M4.Power(2);
 
-	//PrintMatrixToConsole(M2, "M2");
-	//PrintMatrixToConsole(M4, "M4");
-	//PrintMatrixToConsole(M8, "M8");
+	//PrintUtil::PrintMatrixToConsole(M2, "M2");
+	//PrintUtil::PrintMatrixToConsole(M4, "M4");
+	//PrintUtil::PrintMatrixToConsole(M8, "M8");
 
 	// visual inspection as answers were not given
 
-	PrintMatrixToConsole(M2 * math, "math students after 2 years:");
-	PrintMatrixToConsole(M2 * physics, "physics students after 2 years:");
-	PrintMatrixToConsole(M2 * compsci, "computer science students after 2 years:");
+  PrintUtil::PrintMatrixToConsole(M2 * math, "math students after 2 years:");
+  PrintUtil::PrintMatrixToConsole(M2 * physics, "physics students after 2 years:");
+  PrintUtil::PrintMatrixToConsole(M2 * compsci, "computer science students after 2 years:");
 
-	PrintMatrixToConsole(M4 * math, "math students after 4 years:");
-	PrintMatrixToConsole(M4 * physics, "physics students after 4 years:");
-	PrintMatrixToConsole(M4 * compsci, "computer science students after 4 years:");
+  PrintUtil::PrintMatrixToConsole(M4 * math, "math students after 4 years:");
+  PrintUtil::PrintMatrixToConsole(M4 * physics, "physics students after 4 years:");
+  PrintUtil::PrintMatrixToConsole(M4 * compsci, "computer science students after 4 years:");
 
-	PrintMatrixToConsole(M8 * math, "math students after 8 years:");
-	PrintMatrixToConsole(M8 * physics, "physics students after 8 years:");
-	PrintMatrixToConsole(M8 * compsci, "computer science students after 8 years:");
+  PrintUtil::PrintMatrixToConsole(M8 * math, "math students after 8 years:");
+  PrintUtil::PrintMatrixToConsole(M8 * physics, "physics students after 8 years:");
+  PrintUtil::PrintMatrixToConsole(M8 * compsci, "computer science students after 8 years:");
 
 	for (auto result : { M8*math, M8*physics, M8*compsci }) // sanity check, after 8 years all students are still in the system :)
 	{
@@ -535,7 +506,7 @@ TEST_F(cmatrixTest, exercise_4_4_2)
 		});
 
 	//cdouble_matrix test = U * U.Conjugate().Transpose();
-	//PrintMatrixToConsole(test);
+	//PrintUtil::PrintMatrixToConsole(test);
 
 	ASSERT_TRUE(U.IsUnitary());
 
@@ -546,10 +517,10 @@ TEST_F(cmatrixTest, exercise_4_4_2)
 	{
 		state[i + 1] = U * state[i];
 		std::cout << "State after step " << i+1 << ":\n";
-		PrintMatrixToConsole(state[i + 1]);
+    PrintUtil::PrintMatrixToConsole(state[i + 1]);
 	}
 
 	cdouble_vector endStateNormalized = state[3].ToVector().Normalize();
-	PrintVectorToConsole(endStateNormalized, "Normalized end state:");
+  PrintUtil::PrintVectorToConsole(endStateNormalized, "Normalized end state:");
 
 }

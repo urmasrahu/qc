@@ -10,20 +10,6 @@ class QC_Algorithms_Test : public Test
 {
 public:
 	QC_Algorithms_Test() = default;
-
-	//TBD: duplicate with test_cvector, move to some "util" class
-	template <typename T> void PrintVectorToConsole(const complex_vector<T> & vector, const char * title = nullptr)
-	{
-		if (title)
-			std::cout << title << "\n";
-
-		std::vector<std::string> dbg = vector.ToStringList();
-		for (auto value : dbg)
-		{
-			std::cout << value << " ";
-		}
-		std::cout << "\n";
-	}
 };
 
 

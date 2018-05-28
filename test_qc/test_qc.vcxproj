@@ -158,7 +158,9 @@
     <ClInclude Include="..\src\cmatrix.h" />
     <ClInclude Include="..\src\complex.h" />
     <ClInclude Include="..\src\cvector.h" />
+    <ClInclude Include="..\src\print_util.h" />
     <ClInclude Include="..\src\qc_algorithms.h" />
+    <ClInclude Include="..\src\quantum_gates.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
@@ -167,11 +169,13 @@
     <ClCompile Include="..\src\complex.cpp" />
     <ClCompile Include="..\src\cvector.cpp" />
     <ClCompile Include="..\src\qc_algorightms.cpp" />
+    <ClCompile Include="..\src\quantum_gates.cpp" />
     <ClCompile Include="test_cmatrix.cpp" />
     <ClCompile Include="test_complex.cpp" />
     <ClCompile Include="test_cvector.cpp" />
     <ClCompile Include="test_qc.cpp" />
     <ClCompile Include="test_qc_algorithms.cpp" />
+    <ClCompile Include="test_quantum_gates.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
