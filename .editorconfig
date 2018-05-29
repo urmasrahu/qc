@@ -1,0 +1,42 @@
+# EditorConfig is awesome: http://EditorConfig.org
+
+# top-most EditorConfig file
+root = true
+
+# Defaults for all files
+[*]
+indent_style = tab
+indent_size = 2
+end_of_line = lf
+charset = utf-8
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+# C/C++
+[*.{c,cpp,cxx,h,hpp,hxx,ipp}]
+indent_style = tab
+end_of_line = crlf
+
+# Windows and Visual Studio
+[*.{vcxproj,vcproj,sln,filters,def,props,wixproj,wxi,wxs,manifest}]
+end_of_line = crlf
+
+# Tab indentation (no size specified)
+[Makefile]
+indent_style = tab
+
+# Indentation override for all JS under lib directory
+[lib/**.js]
+indent_size = 2
+
+# Matches the exact files either package.json or .travis.yml
+[{package.json,.travis.yml}]
+indent_size = 2
+
+# Windows and scripts
+[*.{cmd,bat,ini}]
+end_of_line = crlf
+
+# Windows resource files
+[*.{rc,rc2}]
+end_of_line = crlf

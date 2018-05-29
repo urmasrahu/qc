@@ -21,6 +21,8 @@ public:
 
 	void FromValueListList(const std::vector<std::vector<T>> & list);
 
+	bool NearEquals(const complex_matrix & other, double epsilon) const;
+
 	complex_matrix Add(const complex_matrix & other) const { return AddOrSubtract(other, &complex_vector<T>::Add); }
 	complex_matrix operator + (const complex_matrix & other) const { return Add(other); }
 	complex_matrix Subtract(const complex_matrix & other) const { return AddOrSubtract(other, &complex_vector<T>::Subtract); }
@@ -38,6 +40,9 @@ public:
 	complex_matrix Multiply(const complex_matrix & other) const;
 	complex_matrix operator * (const complex_matrix & other) const { return Multiply(other); }
 	complex_matrix operator *= (const complex_matrix & other) { *this = Multiply(other); return *this; }
+
+	complex_vector<T> Multiply(const complex_vector<T> & other) const;
+	complex_vector<T> operator * (const complex_vector<T> & other) const { return Multiply(other); }
 
 	complex_matrix Power(size_t k) const;
 	complex_matrix operator ^ (size_t k) const { return Power(k); }
@@ -70,10 +75,22 @@ protected:
 };
 
 
-template <typename T> complex_matrix<T> operator * (const T & scalar, const complex_matrix<T> & matrix){
+template <typename T> complex_matrix<T> operator * (const T & scalar, const complex_matrix<T> & matrix)
+{
 	return matrix * scalar;
 }
 
 
 typedef complex_matrix<cint> cint_matrix;
 typedef complex_matrix<cdouble> cdouble_matrix;
+
+// convenience operators for multiplying matrixes with scalars
+inline cint_matrix operator * (int scalar, const cint_matrix & matrix)
+{
+	return matrix * cint(scalar);
+}
+
+inline cdouble_matrix operator * (double scalar, const cdouble_matrix & matrix)
+{
+	return matrix * cdouble(scalar);
+}

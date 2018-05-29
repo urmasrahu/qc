@@ -2,6 +2,9 @@
 
 #include <iostream>
 
+#include "cvector.h"
+#include "cmatrix.h"
+
 namespace PrintUtil
 {
   template <typename T> void PrintMatrixToConsole(const complex_matrix<T> & matrix, const char * title = nullptr)

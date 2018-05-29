@@ -13,5 +13,5 @@ cdouble_matrix QuantumGates::SquareRootOfNot()
     }
   );
 
-  return result * M_SQRT1_2;
+  return result * cdouble(M_SQRT1_2);
 }

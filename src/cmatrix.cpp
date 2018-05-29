@@ -51,6 +51,28 @@ template <class T> void complex_matrix<T>::FromValueListList(const std::vector<s
 		this->push_back(complex_vector<T>(row));
 }
 
+template <class T> bool complex_matrix<T>::NearEquals(const complex_matrix & other, double epsilon) const
+{
+	bool result = false;
+
+	size_t n = this->size();
+	if (n == other.size())
+	{
+		result = true;
+
+		for (size_t i = 0; i < n; i++)
+		{
+			if (!(*this)[i].NearEquals(other[i], epsilon))
+			{
+				result = false;
+				break;
+			}
+		}
+
+		return result;
+	}
+}
+
 template <class T> complex_matrix<T> complex_matrix<T>::AddOrSubtract(const complex_matrix & other, complex_vector<T>(complex_vector<T>::*fnPtr)(const complex_vector<T> &) const) const
 {
 	size_t n = this->size();
@@ -120,6 +142,14 @@ template <class T> complex_matrix<T> complex_matrix<T>::Multiply(const complex_m
 	}
 
 	return result;
+}
+
+template <class T> complex_vector<T> complex_matrix<T>::Multiply(const complex_vector<T> & other) const
+{
+	complex_matrix<T> otherMatrix;
+	otherMatrix.FromVector(other);
+
+	return Multiply(otherMatrix).ToVector();
 }
 
 template <class T> complex_matrix<T> complex_matrix<T>::Power(size_t k) const
@@ -283,6 +313,9 @@ namespace
 		cint_matrix({ {1} });
 		cdouble_matrix({ {1} });
 
+		mi.NearEquals(mi, 0);
+		md.NearEquals(md, 0);
+
 		mi.Add(mi);
 		md.Add(md);
 
@@ -297,6 +330,9 @@ namespace
 
 		mi.Multiply(cint_matrix({}));
 		md.Multiply(cdouble_matrix({}));
+
+		mi.Multiply(cint_vector({}));
+		md.Multiply(cdouble_vector({}));
 
 		mi.Power(0);
 		md.Power(0);

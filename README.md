@@ -11,3 +11,6 @@ Setting up the build environment:
 * Clone or download Googletest into a folder named "googletest", placed at the parent of the "qc" folder.
 
 Note: the qc project is not used for anything now, test_qc has all the stuff.
+
+Useful references:
+* Math constants in Visual C++: https://docs.microsoft.com/en-us/cpp/c-runtime-library/math-constants

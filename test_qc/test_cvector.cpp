@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "cvector.h"
+#include "print_util.h"
 
 #define _USE_MATH_DEFINES
 #include <math.h>  
@@ -247,7 +248,18 @@ TEST_F(cvectorTest, example_4_1_4)
 	EXPECT_EQ(53.0 / 78, probabilityDn);
 }
 
-TEST_F(cvectorTest, exercise_4_1_6)
+TEST_F(cvectorTest, exercise_6_4_2)
 {
+  cdouble_vector v({5, 38, 62, 58, 21, 35});
 
+  double mean = v.Sum().Real() / v.size();
+  cdouble_vector invertedAroundMean;
+  for (auto element : v)
+  {
+    invertedAroundMean.push_back(-element.Real() + 2 * mean);
+  }
+
+  cdouble_vector expectedResult({68, 35, 11, 15, 52, 38 });
+  EXPECT_EQ(expectedResult, invertedAroundMean);
+  //PrintUtil::PrintVectorToConsole(invertedAroundMean, "exercise 6.4.2");
 }
