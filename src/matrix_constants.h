@@ -7,7 +7,7 @@
 
 namespace MatrixConstants
 {
-  const cdouble_matrix HADAMARD_2(
+  const cdouble_matrix HADAMARD(
     {
       { cdouble(M_SQRT1_2), cdouble(M_SQRT1_2) },
       { cdouble(M_SQRT1_2), cdouble(-M_SQRT1_2) }

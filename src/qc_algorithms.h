@@ -9,7 +9,12 @@ namespace QC_Algorithms
 
 	double ObservationProbability(const cdouble_vector & state, size_t position);
 
-  cdouble_matrix AveragerMatrix(size_t size);
+	cdouble_matrix HadamardMatrix(size_t order);
+	cdouble_matrix AveragerMatrix(size_t size);
+
+	cdouble_vector InverseAboutMean(const cdouble_vector & vector);
 
 	cdouble_matrix FillWithBinaryVectorsInOrder(size_t n);
+
+	cint_vector PowersOfModulo(int a, int N, size_t count); // 6.5, page 206
 }

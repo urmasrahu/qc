@@ -66,9 +66,9 @@ public:
 	bool IsDoublyStochastic() const;
 	bool IsUnitary() const;
 
+	static complex_matrix CreateFromVector(const complex_vector<T> & vector) { complex_matrix M; M.FromVector(vector); return M; }
 	static complex_matrix CreateZeroMatrix(size_t m, size_t n);
 	static complex_matrix CreateIdentityMatrix(size_t size);
-	static complex_matrix CreateFromVector(const complex_vector<T> & vector) { complex_matrix M; M.FromVector(vector); return M; }
 
 protected:
 	complex_matrix AddOrSubtract(const complex_matrix & other, complex_vector<T> (complex_vector<T>::*fnPtr)(const complex_vector<T> &) const) const;

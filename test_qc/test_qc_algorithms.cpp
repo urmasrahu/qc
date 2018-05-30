@@ -114,10 +114,10 @@ TEST_F(QC_Algorithms_Test, phase_inversion) // see pages 196-197
 			});
 
 	cdouble_matrix inputs = FillWithBinaryVectorsInOrder(3);
-	PrintUtil::PrintMatrixToConsole(inputs, "inputs");
+	//PrintUtil::PrintMatrixToConsole(inputs, "inputs");
 
 	cdouble_matrix outputs = Uf * inputs;
-	PrintUtil::PrintMatrixToConsole(outputs, "outputs, note that '10' was found at inputs 4 and 5 (0-based)");
+	//PrintUtil::PrintMatrixToConsole(outputs, "outputs, note that '10' was found at inputs 4 and 5 (0-based)");
 
 	cdouble a(M_SQRT1_2), b(-M_SQRT1_2); // from here on this is wrong, I have no idea what I'm doing
 	cdouble * ptr = &a;
@@ -128,16 +128,16 @@ TEST_F(QC_Algorithms_Test, phase_inversion) // see pages 196-197
 		input[2] = *ptr;
 		ptr = (ptr == &a) ? &b : &a;
 	}
-	PrintUtil::PrintMatrixToConsole(inputsBottomQubitInSuperPosition, "inputsBottomQubitInSuperPosition");
+	//PrintUtil::PrintMatrixToConsole(inputsBottomQubitInSuperPosition, "inputsBottomQubitInSuperPosition");
 
 	cdouble_matrix I = cdouble_matrix::CreateIdentityMatrix(2);
-	cdouble_matrix H = MatrixConstants::HADAMARD_2;
+	cdouble_matrix H = MatrixConstants::HADAMARD;
 
 	cdouble_matrix IH_tensorProduct = I.TensorProduct(H);
-	PrintUtil::PrintMatrixToConsole(IH_tensorProduct, "IH_tensorProduct");
+	//PrintUtil::PrintMatrixToConsole(IH_tensorProduct, "IH_tensorProduct");
 
 	cdouble_matrix outputs2 = Uf * inputsBottomQubitInSuperPosition;
-	PrintUtil::PrintMatrixToConsole(outputs2, "outputs2");
+	//PrintUtil::PrintMatrixToConsole(outputs2, "outputs2");
 }
 
 TEST_F(QC_Algorithms_Test, inversion_about_mean) // see page 198
@@ -162,4 +162,78 @@ TEST_F(QC_Algorithms_Test, inversion_about_mean) // see page 198
 	EXPECT_TRUE(expectedResultInversion.NearEquals(VprimeAlt, 0.0001));
 
 	EXPECT_EQ(A ^ 2, A); // exercise 6.4.3
+
+	// finally, use the InverseAboutMean() method of the namespace
+	EXPECT_EQ(expectedResultInversion, InverseAboutMean(V));
+}
+
+TEST_F(QC_Algorithms_Test, example_6_4_1)
+{
+	cdouble_vector v(5, 10); // (6.125)
+
+	v[3] = -v[3]; // phase inversion of one element
+	EXPECT_EQ(cdouble_vector({ 10, 10, 10, -10, 10 }), v); // (6.126)
+
+	v = InverseAboutMean(v);
+
+	EXPECT_EQ(cdouble_vector({ 2, 2, 2, 22, 2 }), v); // (6.129)
+
+	v[3] = -v[3]; // repeat (6.130)
+	v = InverseAboutMean(v);
+
+	EXPECT_EQ(cdouble_vector({ -7.6, -7.6, -7.6, 16.4, -7.6 }), v); // (6.133)
+}
+
+TEST_F(QC_Algorithms_Test, HadamardMatrix)
+{
+	cdouble_matrix h = HadamardMatrix(1);
+	EXPECT_EQ(MatrixConstants::HADAMARD, h);
+
+	h = HadamardMatrix(2);
+	//PrintUtil::PrintMatrixToConsole(h, "H2");
+	EXPECT_EQ(MatrixConstants::HADAMARD.TensorProduct(MatrixConstants::HADAMARD), h);
+}
+
+TEST_F(QC_Algorithms_Test, Grovers_algorithm)
+{
+	cdouble_matrix H = HadamardMatrix(3);
+
+	cdouble_vector s(8); // s for "state"
+	s[0] = 1;
+	//PrintUtil::PrintVectorToConsole(s, "s1");
+	EXPECT_EQ(cdouble_vector({1, 0, 0 , 0 , 0 , 0 , 0 , 0 }), s);
+
+	s = H * s;
+	//PrintUtil::PrintVectorToConsole(s, "s2");
+	EXPECT_TRUE(s.NearEquals(cdouble_vector({ 0.353553, 0.353553, 0.353553, 0.353553, 0.353553, 0.353553, 0.353553, 0.353553 }), 0.0001));
+
+	s[5] = -s[5];
+	//PrintUtil::PrintVectorToConsole(s, "s3a (6.137)");
+	EXPECT_TRUE(s.NearEquals(cdouble_vector({ 0.353553, 0.353553, 0.353553, 0.353553, 0.353553, -0.353553, 0.353553, 0.353553 }), 0.0001));
+
+	s = InverseAboutMean(s);
+	//PrintUtil::PrintVectorToConsole(s, "s3b (6.141)");
+	EXPECT_TRUE(s.NearEquals(cdouble_vector({ 0.176777, 0.176777, 0.176777, 0.176777, 0.176777, 0.883883, 0.176777, 0.176777 }), 0.0001));
+
+	s[5] = -s[5];
+	EXPECT_TRUE(s.NearEquals(cdouble_vector({ 0.176777, 0.176777, 0.176777, 0.176777, 0.176777, -0.883883, 0.176777, 0.176777 }), 0.0001));
+
+	s = InverseAboutMean(s);
+	EXPECT_TRUE(s.NearEquals(cdouble_vector({ -0.08839, -0.08839, -0.08839, -0.08839, -0.08839, 0.97227, -0.08839, -0.08839, }), 0.0001));
+}
+
+TEST_F(QC_Algorithms_Test, PowersOfModulo)
+{
+	cint_vector v = PowersOfModulo(2, 15, 13);
+	//PrintUtil::PrintVectorToConsole(v);
+	EXPECT_EQ(cint_vector({ 1,2,4,8,1,2,4,8,1,2,4,8,1 }), v);
+
+	v = PowersOfModulo(4, 15, 13);
+	EXPECT_EQ(cint_vector({ 1,4,1,4,1,4,1,4,1,4,1,4,1 }), v);
+
+	v = PowersOfModulo(13, 15, 13);
+	//PrintUtil::PrintVectorToConsole(v);
+	EXPECT_EQ(cint_vector({ 1,13,4,7,1,13,4,7,1,13,4,7,1 }), v);
+
+	PrintUtil::PrintVectorToConsole(PowersOfModulo(6, 371, 8), "PowersOfModulo(6, 371, 8)");
 }
