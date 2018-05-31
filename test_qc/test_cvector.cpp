@@ -201,7 +201,7 @@ TEST_F(cvectorTest, CreateZeroVector)
 	cint_vector zeroVector = cint_vector::CreateZeroVector(4);
 
 	ASSERT_EQ(4, zeroVector.size());
-	for (auto value : zeroVector)
+	for (const auto & value : zeroVector)
 	{
 		EXPECT_EQ(cint(), value);
 	}
@@ -254,7 +254,7 @@ TEST_F(cvectorTest, exercise_6_4_2)
 
   double mean = v.Sum().Real() / v.size();
   cdouble_vector invertedAroundMean;
-  for (auto element : v)
+  for (const auto & element : v)
   {
     invertedAroundMean.push_back(-element.Real() + 2 * mean);
   }

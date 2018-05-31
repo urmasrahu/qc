@@ -12,6 +12,22 @@ class QC_Algorithms_Test : public Test
 {
 public:
 	QC_Algorithms_Test() = default;
+
+	bool VectorsNearEqual(const std::vector<double> & a, const std::vector<double> & b)
+	{
+		size_t n = a.size();
+		if (n != b.size())
+			return false;
+
+		for (size_t i = 0; i < n; i++)
+		{
+			double diff = abs(a[i] - b[i]);
+			if (diff > DBL_EPSILON * 10)
+				return false;
+		}
+
+		return true;
+	}
 };
 
 
@@ -147,7 +163,7 @@ TEST_F(QC_Algorithms_Test, inversion_about_mean) // see page 198
 	cdouble_matrix A = AveragerMatrix(5);
 
 	cdouble_vector AV = (A * V);
-	for (auto value : AV)
+	for (const auto & value : AV)
 		EXPECT_EQ(42, value.Real());
 
 	cdouble_vector expectedResultInversion({ 31, 46, 67, 61, 5 });
@@ -236,4 +252,62 @@ TEST_F(QC_Algorithms_Test, PowersOfModulo)
 	EXPECT_EQ(cint_vector({ 1,13,4,7,1,13,4,7,1,13,4,7,1 }), v);
 
 	PrintUtil::PrintVectorToConsole(PowersOfModulo(6, 371, 8), "PowersOfModulo(6, 371, 8)");
+}
+
+TEST_F(QC_Algorithms_Test, example_7_2_4)
+{
+	cdouble_vector R = CreateQubitStateVectorAndInitializeToZero(2);
+	cdouble_matrix U = HadamardMatrix(2);
+	R = U * R;
+	//PrintUtil::PrintVectorToConsole(R, "7.7");
+
+	double probability11 = R[3].ModulusSquared();
+	EXPECT_EQ(0.25, probability11);
+}
+
+TEST_F(QC_Algorithms_Test, exercise_7_2_4)
+{
+	cdouble_vector R = CreateQubitStateVectorAndInitializeToZero(2);
+	cdouble_matrix U = HadamardMatrix(1).TensorProduct(cdouble_matrix::CreateIdentityMatrix(2));
+	R = U * R;
+	//PrintUtil::PrintVectorToConsole(R, "line 3");
+
+	R = MatrixConstants::CNOT * R;
+	//PrintUtil::PrintVectorToConsole(R, "line 6");
+
+	std::vector<double> RES_probabilities = MeasurementProbabilitiesVector(R);
+	//PrintUtil::PrintVectorToConsole(RES_probabilities, "line 7 (measurement probabilities)");
+
+	EXPECT_TRUE(VectorsNearEqual(std::vector<double>({ 0.5, 0, 0, 0.5 }), RES_probabilities)); // no answer given in book but this is what I got
+
+	for (int i=0; i<100; i++) // exercise 7.2.5
+	{
+		R = U * R;
+		R = MatrixConstants::CNOT * R;
+		RES_probabilities = MeasurementProbabilitiesVector(R);
+		//PrintUtil::PrintVectorToConsole(RES_probabilities);
+
+		if (RES_probabilities[2] > 0) // probability of "10" state
+			break;
+	}
+}
+
+TEST_F(QC_Algorithms_Test, quantum_computer_simultor)
+{ // runs the exercise 7.2.4 through 10 simulations
+	for (int i = 0; i < 10; i++)
+	{
+		//std::string outputDescription = "Simulation round ";
+		//outputDescription += std::to_string(i);
+
+		cdouble_vector R = CreateQubitStateVectorAndInitializeToZero(2);
+		cdouble_matrix U = HadamardMatrix(1).TensorProduct(cdouble_matrix::CreateIdentityMatrix(2));
+
+		R = U * R;
+
+		R = MatrixConstants::CNOT * R;
+
+		//PrintUtil::PrintVectorToConsole(R, outputDescription.c_str());
+		size_t RES = Measure(R);
+		std::cout << "Measured state: " << RES << "\n";
+	}
 }

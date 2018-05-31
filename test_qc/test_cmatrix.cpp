@@ -243,10 +243,10 @@ TEST_F(cmatrixTest, Inverse_and_CreateZeroMatrix)
 {
 	cdouble_matrix zeroMatrix = cdouble_matrix::CreateZeroMatrix(3, 3);
 	ASSERT_EQ(3, zeroMatrix.size());
-	for (auto vector : zeroMatrix)
+	for (const auto & vector : zeroMatrix)
 	{
 		ASSERT_EQ(3, vector.size());
-		for (auto value : vector)
+		for (const auto & value : vector)
 			EXPECT_EQ(cdouble(), value);
 	}
 

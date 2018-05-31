@@ -17,7 +17,7 @@ template <class T> complex_vector<T> complex_matrix<T>::ToVector() const
 {
 	complex_vector<T> result;
 
-	for (auto row : *this)
+	for (const auto & row : *this)
 		result.push_back(row[0]);
 
 	return result;
@@ -241,7 +241,7 @@ template <class T> T complex_matrix<T>::ColSum(size_t col) const
 {
 	T result;
 
-	for (auto row : *this)
+	for (const auto & row : *this)
 		result += row[col];
 
 	return result;
@@ -269,7 +269,7 @@ template <class T> bool complex_matrix<T>::IsUnitary() const
 
 	complex_matrix<T> identityMatrix = CreateIdentityMatrix(n);
 
-	return (*this) * Conjugate().Transpose()  == identityMatrix;
+	return (*this) * Conjugate().Transpose() == identityMatrix;
 }
 
 template <class T> complex_matrix<T> complex_matrix<T>::CreateZeroMatrix(size_t m, size_t n)

@@ -39,6 +39,9 @@
     <ClInclude Include="..\src\matrix_constants.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\quantum_crypto.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test_qc.cpp">
@@ -78,6 +81,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="test_matrix_constants.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\quantum_crypto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="test_quantum_crypto.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\randomizer_initializer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

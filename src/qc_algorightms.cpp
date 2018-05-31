@@ -1,6 +1,8 @@
 #include "qc_algorithms.h"
 #include "matrix_constants.h"
 
+#include <random>
+
 cdouble_vector QC_Algorithms::BraFromKet(const cdouble_vector & ket)
 {
 	return ket.Conjugate();
@@ -81,6 +83,69 @@ cdouble_matrix QC_Algorithms::FillWithBinaryVectorsInOrder(size_t n) // eg. "000
 	}
 
 	return result;
+}
+
+cdouble_vector QC_Algorithms::CreateQubitStateVectorAndInitializeToZero(size_t numberOfQubits)
+{
+	cdouble_vector result(1 << numberOfQubits);
+	result[0] = 1;
+	return result;
+}
+
+size_t QC_Algorithms::Measure(const cdouble_vector & state)
+{
+	std::vector<double> probabilities = MeasurementProbabilitiesVector(state);
+
+	size_t n = probabilities.size(); // same as state.size()
+	std::vector<double> lowerBounds(n), upperBounds(n);
+
+	double boundary = 0.0;
+	for (size_t i = 0; i < n; i++)
+	{
+		lowerBounds[i] = boundary;
+		boundary += probabilities[i];
+		upperBounds[i] = boundary;
+	}
+
+	double r = RandomNumber();
+
+	for (size_t i = 0; i < n; i++)
+	{
+		if (r >= lowerBounds[i] && r <= upperBounds[i])
+			return i;
+	}
+
+	// Should never end up here, but in case we have some rounding error this can be possible;
+	// in this case return the measurement with the highest probability.
+
+	size_t maxIndex = 0;
+	for (size_t i = 1; i < n; i++)
+		if (probabilities[i] > probabilities[maxIndex])
+			maxIndex = i;
+
+	return maxIndex;
+}
+
+std::vector<double> QC_Algorithms::MeasurementProbabilitiesVector(const cdouble_vector & state)
+{
+	size_t n = state.size();
+	std::vector<double> result(n);
+
+	for (int i = 0; i < n; i++)
+	{
+		result[i] = state[i].ModulusSquared();
+	}
+
+	return result;
+}
+
+double QC_Algorithms::RandomNumber()
+{ // from http://en.cppreference.com/w/cpp/numeric/random/uniform_real_distribution
+	static std::random_device rd;
+	static std::mt19937 gen(rd());
+	static std::uniform_real_distribution<> dis(0.0, 1.0);
+
+	return dis(gen);
 }
 
 cint_vector QC_Algorithms::PowersOfModulo(int a, int N, size_t count)

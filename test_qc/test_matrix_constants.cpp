@@ -12,7 +12,7 @@ public:
 };
 
 
-TEST_F(MatrixConstants_Test, HADAMARD_2)
+TEST_F(MatrixConstants_Test, HADAMARD)
 {
   PrintUtil::PrintMatrixToConsole(MatrixConstants::HADAMARD, "HADAMARD");
 

@@ -10,7 +10,7 @@ template <class T> void complex_vector<T>::FromStringList(const std::vector<std:
 {
 	this->clear();
 
-	for (auto str : list)
+	for (const auto & str : list)
 		this->push_back(T(str));
 }
 
@@ -28,7 +28,7 @@ template <class T> void complex_vector<T>::FromValueList(const std::vector<T> & 
 {
 	this->clear();
 
-	for (auto value : list)
+	for (const auto & value : list)
 		this->push_back(value);
 }
 
@@ -83,7 +83,7 @@ template <class T> complex_vector<T> complex_vector<T>::Conjugate() const
 {
 	complex_vector<T> result;
 
-	for (auto & value : *this)
+	for (const auto & value : *this)
 		result.push_back(value.Conjugate());
 
 	return result;
@@ -93,7 +93,7 @@ template <class T> complex_vector<T> complex_vector<T>::Inverse() const
 {
 	complex_vector<T> result;
 
-	for (auto & value : *this)
+	for (const auto & value : *this)
 		result.push_back(-value);
 
 	return result;
@@ -103,7 +103,7 @@ template <class T> complex_vector<T> complex_vector<T>::Multiply(const T & scala
 {
 	complex_vector<T> result;
 
-	for (auto & value : *this)
+	for (const auto & value : *this)
 		result.push_back(value * scalar);
 
 	return result;
@@ -170,7 +170,7 @@ template <class T> T complex_vector<T>::Sum() const
 {
 	T result;
 
-	for (auto value : *this)
+	for (const auto & value : *this)
 		result += value;
 
 	return result;
